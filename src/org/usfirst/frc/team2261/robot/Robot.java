@@ -7,7 +7,7 @@ package org.usfirst.frc.team2261.robot;
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
+// PLEZ READ 
 /* CLEAN IF YOU CANNOT CONNECT TO THE ROBORIO. HOW TO CLEAN: Go to Project > Clean to clean up project; may be able to work fine after.
  Another way to clean the roboRIO/DNS: Press Windows key > Search for Command Prompt > in the Prompt type in "ping" (roboRIO-2261-FRC.local)
 or (10.22.61.78 to see if you can get a reply from it; After that use the command "ipconfig /flushdns" to clear out the Cache; problem
@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//import edu.wpi.first.wpilibj.vision.USBCamera;
+// import edu.wpi.first.wpilibj.vision
 import edu.wpi.first.wpilibj.CameraServer;
 //Added new declaration to import box "edu.wpi.first.wpilibj.vision.USBCamera" to box.
 /**
