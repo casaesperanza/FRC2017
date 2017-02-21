@@ -133,15 +133,20 @@ public class Robot extends SampleRobot {
 
 		compressor.start();
 		
+		BillygatesSolenoid.set(DoubleSolenoid.Value.kReverse);
+		//	BillygatesSolenoid.set(DoubleSolenoid.Value.kForward);
+		
+		
 		// Ensure all motors are stopped (I don't believe we should have to do this)
 		robotDrive.drive(0, 0);
 // ToDo Add Winchdrive zero out here
+		
 		robotInitted = true;
-	}
+	} //End RobotInit
 
 	public void autonomous() 
 	{
-
+		
 		robotDrive.setExpiration(MOTOR_EXPIRATION);
 		if (!robotInitted) 
 		{
@@ -149,27 +154,31 @@ public class Robot extends SampleRobot {
 			robotInit();
 		}
 		
-		robotDrive.drive(0.5, 0);
-		Date startTime = new Date();
+		
+	//	Date startTime = new Date();
 // Chris was here
-//		while (isAutonomous() && isEnabled()) 
-//		{
-//			Date now = new Date();
-//			while (now - startTime < 3000) {
-//				autonomousPeriodic();
-//			}
-			autonomousPeriodic();
-			DIP_SWITCH = true;
-			if (DIP_SWITCH == true)
-			{
-	
-			}
+		driveAutonForNSeconds(1.2, -0.6075);
+		BillygatesSolenoid.set(DoubleSolenoid.Value.kForward);
+		driveAutonForNSeconds(5.0, 0.0);
+		robotDrive.drive(0, 0);
+
 			// Driver forward at half speed for 3 seconds
 			 
 			// Timer.delay(3);
 			// robotDrive.drive(0, 0);
 			// Timer.delay(100);
 		}
+//1.1s -0.47
+	private void driveAutonForNSeconds(double nSeconds, double magnitude) {
+		Timer timer = new Timer();
+		timer.reset();
+		timer.start();
+		while (isAutonomous() && isEnabled() && timer.get() < nSeconds) 
+		{
+			robotDrive.drive(magnitude, 0);
+			Timer.delay(Robot.UPDATE_DELAY);
+		}
+	}
 		//-New 2017 pseudocode
 		// CENTER START
 		// wait one second
@@ -227,7 +236,7 @@ public class Robot extends SampleRobot {
 		
 		
 		
-	}
+	
 
 	/**
 	 * This function is called once each time the robot enters operator control.
@@ -244,7 +253,7 @@ public class Robot extends SampleRobot {
 		// While still under operator control and enabled, "arcade drive" robot,
 		while (isOperatorControl() && isEnabled()) {
 
-			robotDrive.arcadeDrive(driverJoystick.getZ() * 1, driverJoystick.getY() * 1); // Rotate Clockwise and Counter-Clockwise
+			robotDrive.arcadeDrive(driverJoystick.getY() * 1, driverJoystick.getZ() * 1); // Rotate Clockwise and Counter-Clockwise
 
 			if (accessoryJoystick.getRawButton(6)) { // Winch Drive up
 			//	
@@ -288,11 +297,14 @@ public class Robot extends SampleRobot {
 		Scheduler.getInstance().run();
 	}
 
-
+@Override
 	protected void disabled() {
 		robotDrive.drive(0, 0);
+		BillygatesSolenoid.set(DoubleSolenoid.Value.kForward);
 		robotInitted = false;
-		BillygatesSolenoid.set(DoubleSolenoid.Value.kOff);
+		//  BillygatesSolenoid.set(DoubleSolenoid.Value.kOff);
+		//  BillygatesSolenoid.set(DoubleSolenoid.Value.kReverse);
+		Timer.delay(3);
 		compressor.stop();
 
 	}
